@@ -44,7 +44,7 @@ layers:
   - V
   - B
   - MUTE
-  - RGB TOG
+  - ''
   - N
   - M
   - ','
@@ -196,12 +196,12 @@ layers:
   - ''
   - ''
   - ''
-  - RGB TOG
-  - RGB HUD
-  - RGB HUI
-  - RGB SAD
-  - RGB SAI
-  - RGB EFF
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
   - OUT TOG
   - OUT USB
   - OUT BLE
@@ -209,8 +209,8 @@ layers:
   - ''
   - ''
   - ''
-  - RGB BRD
-  - RGB BRI
+  - ''
+  - ''
   - ''
   - ''
   - ''

@@ -4,32 +4,25 @@
 # control, add individual board + shield combinations to
 # the `include` property, e.g:
 #
-# board: [ "nice_nano_v2" ]
+# board: [ "nice_nano" ]
 # shield: [ "corne_left", "corne_right" ]
 # include:
 #   - board: bdn9_rev2
-#   - board: nice_nano_v2
+#   - board: nice_nano
 #     shield: reviung41
 #
 # ---
 # include:
-#   - board: nice_nano_v2
-#     shield: sofle_left nice_view_adapter nice_view
-#   - board: nice_nano_v2 
-#     shield: sofle_right nice_view_adapter nice_view
-#   - board: nice_nano_v2
+#   - board: nice_nano
 #     shield: settings_reset
 ---
 include:
-  # Split keyboard halves (now as peripherals)
-  - board: nice_nano_v2
+  # Left half (central/primary)
+  - board: nice_nano
     shield: sofle_left
-  - board: nice_nano_v2
+  # Right half (peripheral)
+  - board: nice_nano
     shield: sofle_right
-  # Dongle (central device) with display
-  - board: nice_nano_v2
-    shield: sofle_dongle dongle_display_view_pro_micro
   # Settings reset utility
-  - board: nice_nano_v2
+  - board: nice_nano
     shield: settings_reset
-

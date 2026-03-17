@@ -4,31 +4,62 @@
  * SPDX-License-Identifier: MIT
  */
 
-#include <dt-bindings/led/led.h>
+#include <zephyr/dt-bindings/i2c/i2c.h>
+#include <dt-bindings/pinctrl/nrf-pinctrl.h>
 
+&pinctrl {
+    /* Rewire I2C0 to D0/D4 (P0.08/P0.22) for Azoteq TSP43 */
+    i2c0_rewired_default: i2c0_rewired_default {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 0, 8)>,
+                    <NRF_PSEL(TWIM_SCL, 0, 22)>;
+        };
+    };
 
-&spi3 {
-    compatible = "nordic,nrf-spim";
+    i2c0_rewired_sleep: i2c0_rewired_sleep {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 0, 8)>,
+                    <NRF_PSEL(TWIM_SCL, 0, 22)>;
+            low-power-enable;
+        };
+    };
+};
+
+&i2c0 {
     status = "okay";
+    clock-frequency = <I2C_BITRATE_FAST>;
 
-    led_strip: ws2812@0 {
-        compatible = "worldsemi,ws2812-spi";
+    pinctrl-0 = <&i2c0_rewired_default>;
+    pinctrl-1 = <&i2c0_rewired_sleep>;
+    pinctrl-names = "default", "sleep";
 
-        /* SPI */
-        reg = <0>; /* ignored, but necessary for SPI bindings */
-        spi-max-frequency = <1000000>;
+    tps43: iqs5xx@74 {
+        status = "okay";
+        compatible = "azoteq,iqs5xx";
+        reg = <0x74>;
 
-        /* WS2812 */
-        chain-length = <30>; /* 29 keys have underglow at the moment */
-        spi-one-frame = <0x70>;
-        spi-zero-frame = <0x40>;
+        one-finger-tap;
+        press-and-hold;
+        press-and-hold-time = <250>;
+        two-finger-tap;
 
-        color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
+        scroll;
+        natural-scroll-y;
+        natural-scroll-x;
+
+        bottom-beta = <5>;
+        stationary-threshold = <5>;
+
+        flip-y;
+
+        reset-gpios = <&pro_micro 20 GPIO_ACTIVE_LOW>;
+        rdy-gpios = <&pro_micro 21 GPIO_ACTIVE_HIGH>;
     };
 };
 
 / {
-    chosen {
-        zmk,underglow = &led_strip;
+    tps43_input: tps43_input {
+        compatible = "zmk,input-listener";
+        device = <&tps43>;
     };
 };
