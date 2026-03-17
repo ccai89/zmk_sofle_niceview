@@ -33,26 +33,22 @@
     pinctrl-1 = <&i2c0_rewired_sleep>;
     pinctrl-names = "default", "sleep";
 
-    tps43: iqs5xx@74 {
+    tps43: tps43@74 {
         status = "okay";
-        compatible = "azoteq,iqs5xx";
+        compatible = "azoteq,tps43";
         reg = <0x74>;
 
-        one-finger-tap;
+        single-tap;
         press-and-hold;
-        press-and-hold-time = <250>;
         two-finger-tap;
 
         scroll;
-        natural-scroll-y;
-        natural-scroll-x;
+        invert-scroll-y;
+        invert-scroll-x;
 
-        bottom-beta = <5>;
-        stationary-threshold = <5>;
+        invert-y;
 
-        flip-y;
-
-        reset-gpios = <&pro_micro 20 GPIO_ACTIVE_LOW>;
+        rst-gpios = <&pro_micro 20 GPIO_ACTIVE_LOW>;
         rdy-gpios = <&pro_micro 21 GPIO_ACTIVE_HIGH>;
     };
 };
